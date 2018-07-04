@@ -1,4 +1,4 @@
-<h1>Welcome,<%=Helper.current_user(session).username%>to Fwitter</h1>
+
 
 <% if flash.has?(:message) %>
 <%= flash[:message] %>
@@ -7,7 +7,7 @@
 <h1>Create a Tweet</h1>
 
 <form action="/tweets" method="post">
-  <p>Tweet:<input type="text" name="content" id="tweet_content"></p>
+  <p>Tweet:<input type="text" id="content" name="content" id="tweet_content"></p>
   <input type="submit" id="submit" value="Tweet">
 </form>
 

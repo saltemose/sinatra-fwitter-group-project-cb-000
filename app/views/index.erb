@@ -4,8 +4,8 @@
 <%= flash[:message] %>
 <% end %>
 
-<% if Helpers.logged_in?(session) %>
-<h3>You are logged in as <%= Helpers.current_user(session).username %> To continue, please select from the following options.</h3>
+<% if logged_in? %>
+<h3>You are logged in. To continue, please select from the following options.</h3>
 
 <form action="/tweets" method="get">
   <input type="submit" name="" value="View Tweets">
