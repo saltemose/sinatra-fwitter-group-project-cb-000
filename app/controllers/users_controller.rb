@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   post '/login' do
     if params[:username].empty? || params[:password].empty?
+      puts params
       flash[:message] = "Username and password are required to sign in. Try again."
       erb :'/users/login'
     else
