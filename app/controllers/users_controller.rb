@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     if logged_in?
       session.clear
       flash[:message] = "Successfully logged out."
-      redirect :'/tweets'
+      redirect :'/login'
     else
       redirect :'/'
     end
