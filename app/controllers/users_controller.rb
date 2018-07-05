@@ -25,11 +25,9 @@ class UsersController < ApplicationController
     else
       @user = User.find_by(username: params[:username])
       if @user && @user.authenticate(params[:password])
-        puts @user.id
         session[:user_id] = @user.id
         redirect :'/tweets'
       else
-        puts "failed"
         session.clear
         flash[:message] = "Account not found. Please try again"
         erb :'/users/login'
