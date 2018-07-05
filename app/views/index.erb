@@ -1,4 +1,4 @@
-<h1>Welcome, to Fwitter</h1>
+<h1>Welcome, <%=User.find_by(session[:user_id]%> to Fwitter</h1>
 
 <% if flash.has?(:message) %>
 <%= flash[:message] %>
