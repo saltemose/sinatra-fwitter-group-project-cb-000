@@ -28,6 +28,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         redirect :'/tweets'
       else
+        puts "failed"
         session.clear
         flash[:message] = "Account not found. Please try again"
         erb :'/users/login'
