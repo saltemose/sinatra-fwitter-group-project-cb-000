@@ -17,7 +17,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def logged_in?
-      puts session.to_json
+      # puts session.to_json
       session.key?(:user_id)
     end
 
