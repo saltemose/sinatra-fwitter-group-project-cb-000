@@ -37,6 +37,7 @@ class TweetsController < ApplicationController
   get '/tweets/:id' do
     if logged_in?
       @tweet = Tweet.find_by_id(params[:id])
+      puts @tweet.to_json
       erb :'/tweets/show_tweet'
     else
       flash[:message] = "You must be logged in to view tweets."
