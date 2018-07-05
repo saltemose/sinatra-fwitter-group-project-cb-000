@@ -79,7 +79,7 @@ class TweetsController < ApplicationController
   #DELETE TWEETS
     post '/tweets/:id/delete' do
       if logged_in?
-        @tweet = User.tweet.find_by_id(params[:id])
+        @tweet = Tweet.find_by_id(params[:id])
         if @tweet && Helpers.current_user(session).id == @tweet.user_id
           @tweet.delete
           flash[:message] = "Successfully deleted tweet!"
