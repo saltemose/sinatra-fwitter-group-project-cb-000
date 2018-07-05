@@ -27,7 +27,7 @@ class UsersController < ApplicationController
       puts @user.to_json
       puts params[:password]
       puts @user.methods
-      if @user && @user.password_digest == params[:password]
+      if @user && @user.authenticate
         puts @user.id
         session[:user_id] = @user.id
         redirect :'/tweets'
