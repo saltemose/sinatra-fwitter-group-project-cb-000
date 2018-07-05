@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
   get '/tweets' do
     if logged_in?
       @tweets = Tweet.all
-      erb :'/tweets/tweets'
+      erb :index
     else
       flash[:message] = "You must be logged in to view tweets."
       redirect :'/login'
