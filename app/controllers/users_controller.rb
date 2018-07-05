@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     else
       @user = User.find_by(username: params[:username])
       puts @user.to_json
+      puts params[:password]
       if @user && @user.password_digest == params[:password]
         puts @user.id
         session[:user_id] = @user.id
