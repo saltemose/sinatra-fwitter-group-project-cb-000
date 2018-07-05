@@ -80,7 +80,7 @@ class TweetsController < ApplicationController
     post '/tweets/:id/delete' do
       if logged_in?
         @tweet = Tweet.find(params[:id])
-        if @tweet && Helpers.current_user(session).id == @tweet.user_id
+        if @tweet && Tweet.user_id
           @tweet.delete
           flash[:message] = "Successfully deleted tweet!"
           redirect :'/tweets'
