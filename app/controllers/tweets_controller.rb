@@ -44,7 +44,7 @@ class TweetsController < ApplicationController
     end
   end
 
-  get '/tweet/:id/edit' do
+  get '/tweets/:id/edit' do
     if logged_in?
       @tweet = User.tweet.find(params[:id])
       puts @tweet.to_json
