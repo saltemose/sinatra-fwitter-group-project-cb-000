@@ -18,14 +18,13 @@ class UsersController < ApplicationController
   end
 
   post '/login' do
-    puts params
-
     if params[:username].empty? || params[:password].empty?
       puts params
       flash[:message] = "Username and password are required to sign in. Try again."
       erb :'/users/login'
     else
       @user = User.find_by(username: params[:username])
+      puts @user.to_json
       if @user && @user.password == params[:password]
         puts @user.id
         session[:user_id] = @user.id
