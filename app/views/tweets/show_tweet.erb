@@ -2,7 +2,6 @@
 <%= flash[:message]  %>
 <% end %>
 
-puts session[:user_id]
 <% if session[:user_id] == @tweet.user.id %>
 <h3>My Tweet</h3>
 <%else%>
