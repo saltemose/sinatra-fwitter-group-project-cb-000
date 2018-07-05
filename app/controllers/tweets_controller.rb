@@ -1,9 +1,9 @@
 class TweetsController < ApplicationController
 
   get '/tweets' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       @tweets = Tweet.all
-      erb :'/tweets/tweets'
+      erb :index
     else
       flash[:message] = "You must be logged in to view tweets."
       redirect :'/login'
@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
   end
 
   get '/tweets/new' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       erb :'/tweets/create_tweet'
     else
       flash[:message] = "You must be logged in to tweet."
@@ -25,17 +25,17 @@ class TweetsController < ApplicationController
 
       redirect :'/tweets/new'
     else
-      tweet = Tweet.create(params)
-      tweet.user_id = session[:user_id]
-      tweet.save
+      @tweet = Tweet.create(params)
+      @tweet.user_id = session[:user_id]
+      @tweet.save
 
       flash[:message] = "Successfully tweeted!"
-      redirect :"tweets/#{tweet.id}"
+      redirect :"tweets/#{@tweet.id}"
     end
   end
 
   get '/tweets/:id' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       @tweet = Tweet.find_by_id(params[:id])
       erb :'/tweets/show_tweet'
     else
@@ -44,18 +44,18 @@ class TweetsController < ApplicationController
     end
   end
 
-  get '/tweet/:id/edit' do
-    if Helpers.logged_in?(session)
-      @tweet = Tweet.find_by_id(params[:id])
-      if @tweet && Helpers.current_user(session).id == @tweet.user_id
-      erb :'/tweets/edit_tweet'
+  get '/tweets/:id/edit' do
+    if logged_in?
+      @tweet = Tweet.find(params[:id])
+      if @tweet && session[:user_id] == @tweet.user_id
+        erb :'/tweets/edit_tweet'
       else
         flash[:message] = "You must be the tweet owner to edit."
         redirect :'/tweets'
       end
     else
       flash[:message] = "You must be logged in to edit tweets."
-      redirect :'/login'
+      redirect :"/login"
     end
   end
 
@@ -77,10 +77,10 @@ class TweetsController < ApplicationController
   end
 
   #DELETE TWEETS
-    delete '/tweets/:id/delete' do
-      if Helpers.logged_in?(session)
-        @tweet = Tweet.find_by_id(params[:id])
-        if @tweet && Helpers.current_user(session).id == @tweet.user_id
+    post '/tweets/:id/delete' do
+      if logged_in?
+        @tweet = Tweet.find(params[:id])
+        if @tweet && @tweet.user_id == session[:user_id]
           @tweet.delete
           flash[:message] = "Successfully deleted tweet!"
           redirect :'/tweets'

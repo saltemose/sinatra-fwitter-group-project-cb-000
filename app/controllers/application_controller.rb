@@ -12,6 +12,15 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "fwitter password_security"
   end
 
+    def current_user
+      User.find_by(password_digest: session[:user_id])
+    end
+
+    def logged_in?
+      # puts session.to_json
+      session.key?(:user_id)
+    end
+
   get '/' do
     erb :index
   end

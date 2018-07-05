@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   get '/users' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       @users = User.all
       erb :'users/index'
     else
@@ -9,8 +9,33 @@ class UsersController < ApplicationController
     end
   end
 
+  get '/login' do
+    if logged_in?
+     redirect :"/tweets"
+   else
+     erb :'/users/login'
+   end
+  end
+
+  post '/login' do
+    if params[:username].empty? || params[:password].empty?
+      flash[:message] = "Username and password are required to sign in. Try again."
+      erb :'/users/login'
+    else
+      @user = User.find_by(username: params[:username])
+      if @user && @user.authenticate(params[:password])
+        session[:user_id] = @user.id
+        redirect :'/tweets'
+      else
+        session.clear
+        flash[:message] = "Account not found. Please try again"
+        erb :'/users/login'
+      end
+    end
+  end
+
   get '/signup' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       redirect :'/tweets/tweets'
     else
       erb :'/users/create_user'
@@ -35,42 +60,8 @@ class UsersController < ApplicationController
     end
   end
 
-    get '/login' do
-     if Helpers.logged_in?(session)
-       redirect '/tweets'
-     else
-       erb :'/users/login'
-     end
-    end
-
-    post '/login' do
-      if params[:username].empty? || params[:password].empty?
-        flash[:message] = "Username and password are required to sign in. Try again."
-        erb :'/users/login'
-      else
-        @user = User.find_by(username: params[:username])
-        if @user && @user.password == params[:password]
-          session[:user_id] = @user.id
-          redirect :'/tweets'
-        else
-          session.clear
-          flash[:message] = "Account not found. Please try again"
-          erb :'/users/login'
-        end
-      end
-    end
-
-  #   @user = User.find_by(username: params[:username])
-  #   if @user && @user.password == params[:password]
-  #     session[:user_id] = @user.id
-  #   else
-  #     redirect :'/login'
-  #   end
-  #   erb :'/tweets/tweets'
-  # end
-
   get '/logout' do
-    if Helpers.logged_in?(session)
+    if logged_in?
       session.clear
       flash[:message] = "Successfully logged out."
       redirect :'/login'

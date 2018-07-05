@@ -1,12 +1,8 @@
-<h1>Welcome, <%=Helpers.current_user(session).username!%></h1>
-
 <% if flash.has?(:message) %>
 <%= flash[:message]  %>
 <% end %>
 
-<h3>Tweet Id: <%=@tweet.id%></h3>
-
-<% if Helpers.current_user(session).id == @tweet.user_id %>
+<% if session[:user_id] == @tweet.user_id %>
 <h3>My Tweet</h3>
 <%else%>
 <h3><%=@tweet.user.username%>'s Tweet</h3>

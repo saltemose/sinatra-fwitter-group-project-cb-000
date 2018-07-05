@@ -2,7 +2,8 @@ class Helpers
 
   def self.current_user(session)
     if !session[:user].nil?
-      User.find_by_id(session[:user_id])
+      user = User.find_by_id(session[:user_id])
+      user
     end
   end
 
